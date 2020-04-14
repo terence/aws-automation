@@ -1,7 +1,14 @@
 # aws-automation
 Scripts for automating AWS infrastructure
 
-Looking to:
+Options are:
+- shell + awscli
+- shell + awscli + lambdas
+- shell + awscli + cloudformation
+- jenkins + shell + awscli
+- cloudwatch + lambdas
+
+# Use Cases
 - Script a few lambda for Automation
 - Script Jenkins establishment on an EC2 (need multiple Jenkins)
 - Script establishment of standard-pattern VPCs
@@ -12,13 +19,6 @@ Looking to:
 # Lambda-based Automation
 - Script IAM create user + role + policy
 - Script Dynamo Infrastructure State management
-- Script Cloudwatch Monitor vs Cloudwatch Alarms
 - Script Lambdas to test the infrastructure and environment + SNS + Dynamo update
-
-
-
-
-
-
 
 
