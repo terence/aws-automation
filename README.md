@@ -13,6 +13,7 @@ Looking to:
 - Script IAM create user + role + policy
 - Script Dynamo Infrastructure State management
 - Script Cloudwatch Monitor vs Cloudwatch Alarms
+- Script Lambdas to test the infrastructure and environment + SNS + Dynamo update
 
 
 
