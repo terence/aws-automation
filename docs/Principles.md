@@ -5,9 +5,6 @@
 - serverless first. 
 -- Before thinking Jenkins, we should learn to leverage Lambdas.
 
-
-
-
-
-
+# Considerations
+- externalise configuration settings
 
