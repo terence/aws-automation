@@ -1,12 +1,7 @@
 # aws-automation
 Scripts for automating AWS infrastructure
 
-Options are:
-- shell + awscli
-- shell + awscli + lambdas
-- shell + awscli + cloudformation
-- jenkins + shell + awscli
-- cloudwatch + lambdas
+Patterns...
 
 # Use Cases
 - Script a few lambda for Automation
