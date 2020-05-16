@@ -1,7 +1,8 @@
 # AWS Scripts Command-line Assistant
 #================================================================
 clear
-#source ./vars.sh
+source ./vars.sh
+
 PWD=pwd
 
 # DEFAULTS
@@ -10,6 +11,7 @@ REGION="ap-southeast-2"
 OUTPUT="json"
 EMR_CLUSTER_ID="xxx"
 
+STS_ROLE=""
 
 
 echo =============================================================
@@ -19,14 +21,23 @@ echo 001 : AWS Configure
 echo 002 : AWS S3 List
 echo 003 : AWS STS Assume Role
 echo ----------------------------------------------
-echo ----------------------------------------------
 echo 500 : AWS EC2 describe-vpcs
 echo 501 : AWS EC2 describe-subnets
 echo 502 : AWS EC2 describe-vpn-gateways
 echo 503 : AWS EC2 describe-nat-gateways
 echo 504 : AWS EC2 describe-transit-gateways
 echo 505 : AWS EC2 describe-route-tables
+echo ----------------------------------------------
+echo 600 : AWS EC2 create-vpc
 echo 506 : AWS EC2 xxx
+echo 506 : AWS EC2 xxx
+echo 506 : AWS EC2 xxx
+echo 506 : AWS EC2 xxx
+echo 506 : AWS EC2 xxx
+
+
+
+
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
@@ -125,6 +136,16 @@ case "$SELECTION" in
     --profile $PROFILE \
     --output table
   ;;
+
+
+"600" )
+  echo "===== AWS VPC create-vpc:" $PROFILE
+  aws ec2 create-vpc \
+		--cidr-block xxx \ 
+    --profile $PROFILE \
+    --output table
+  ;;
+
 
 
 
