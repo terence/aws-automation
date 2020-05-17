@@ -4,12 +4,14 @@ Scripts for automating AWS infrastructure
 Patterns...
 
 # Use Cases
-- Script a few lambda for Automation
+- Script to establish a few lambda for Automation
+- Script for Lambdas to establish the network environment/s
+ - Script establishment of standard-pattern VPCs
+ - Script establishment of Bastion Jumphosts
+ - Script establishment of NATs
+ - Script establishment of Internet Gateway
 - Script Jenkins establishment on an EC2 (need multiple Jenkins)
-- Script establishment of standard-pattern VPCs
-- Script establishment of Bastion Jumphosts
-- Script establishment of NATs
-- Script establishment of Internet Gateway
+
 
 # Lambda-based Automation
 - Script IAM create user + role + policy
