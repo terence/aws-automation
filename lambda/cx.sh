@@ -139,6 +139,7 @@ case "$SELECTION" in
     --output $OUTPUT
   ;;
 
+
 "212" )
   echo "===== AWS Lambda Invoke Function:" $PROFILE
   FUNCTION_CODE="lambda-vpc"
@@ -183,6 +184,40 @@ case "$SELECTION" in
     --output $OUTPUT
   ;;
 
+
+"220" )
+  echo "===== AWS Lambda Create Function:" $PROFILE
+  FUNCTION_CODE="lambda-iam"
+  FUNCTION_NAME="terence-iam1"
+  cd $FUNCTION_CODE
+  rm $FUNCTION_CODE.zip
+  zip -r $FUNCTION_CODE.zip .
+  cd ..
+  aws lambda create-function \
+    --function-name $FUNCTION_NAME \
+    --runtime python3.8 \
+    --zip-file fileb://$FUNCTION_CODE/$FUNCTION_CODE.zip \
+    --handler lambda_function.lambda_handler \
+    --role arn:aws:iam::832435373672:role/service-role/lambda-helloworld1-role-rpwjd1ud \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
+
+
+"221" )
+  echo "===== AWS Lambda Update Function Code:" $PROFILE
+  FUNCTION_CODE="lambda-iam"
+  FUNCTION_NAME="terence-iam1"
+  cd $FUNCTION_CODE
+  rm $FUNCTION_CODE.zip
+  zip -r $FUNCTION_CODE.zip .
+  cd ..
+  aws lambda update-function-code \
+    --function-name $FUNCTION_NAME \
+    --zip-file fileb://$FUNCTION_CODE/$FUNCTION_CODE.zip \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
 
 
 # Attempt to cater for ESC
