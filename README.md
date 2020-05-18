@@ -10,8 +10,7 @@ Patterns...
  - Script establishment of Bastion Jumphosts
  - Script establishment of NATs
  - Script establishment of Internet Gateway
-- Script Jenkins establishment on an EC2 (need multiple Jenkins)
-
+- Script Automation Host (e.g. Jenkins) establishment on an EC2 (need multiple Jenkins)
 
 # Lambda-based Automation
 - Script IAM create user + role + policy

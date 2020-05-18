@@ -52,9 +52,15 @@ echo 303 : AWS EC2 delete-vpc-endpoints
 echo ----------------------------------------------
 echo 320 : AWS EC2 describe-vpc-peering-connections
 echo ----------------------------------------------
-echo 400 : AWS EC2 describe-flow-logs
-echo 401 : AWS EC2 create-flow-logs
-echo 402 : AWS EC2 delete-flow-logs
+echo 500 : AWS EC2 describe-addresses
+echo 501 : AWS EC2 allocate-address
+echo 502 : AWS EC2 associate-address
+echo 503 : AWS EC2 disassociate-address
+echo 504 : AWS EC2 release-address
+echo ----------------------------------------------
+echo 900 : AWS EC2 describe-flow-logs
+echo 901 : AWS EC2 create-flow-logs
+echo 902 : AWS EC2 delete-flow-logs
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
@@ -318,7 +324,15 @@ case "$SELECTION" in
   ;;
 
 
-"400" )
+"500" )
+  echo "===== AWS VPC describe-addresses:" $PROFILE
+  aws ec2 describe-addresses \
+    --profile $PROFILE \
+    --output table
+  ;;
+
+
+"900" )
   echo "===== AWS VPC describe-flow-logs:" $PROFILE
   aws ec2 describe-flow-logs \
     --profile $PROFILE \
@@ -326,7 +340,7 @@ case "$SELECTION" in
   ;;
 
 
-"401" )
+"901" )
   echo "===== AWS VPC create-flow-logs:" $PROFILE
   aws ec2 create-flow-logs \
     --resource-type VPC \
@@ -340,7 +354,7 @@ case "$SELECTION" in
 	;;
 
 
-"402" )
+"902" )
   echo "===== AWS VPC delete-flow-logs:" $PROFILE
   aws ec2 delete-flow-logs \
 	  --flow-log-id fl-xxxx \
