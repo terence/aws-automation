@@ -101,8 +101,11 @@ case "$SELECTION" in
 
 "003" )
   echo "===== AWS Assume Role:" $PROFILE
-  aws sts assume-role --role-arn "$STS_ROLE" --role-session-name AWSCLI-Session
-  aws sts get-caller-identity --profile ipadev 
+  aws sts assume-role \
+		--role-arn "$STS_ROLE" \
+		--role-session-name AWSCLI-Session
+  aws sts get-caller-identity \
+		--profile $PROFILE 
   ;;
 
 

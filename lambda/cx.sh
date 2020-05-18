@@ -22,23 +22,25 @@ echo 100 : AWS Lambda Account Settings
 echo 101 : AWS Lambda List Functions
 echo 102 : AWS Lambda List Layers
 echo ----------------------------------------------
-echo 110 : AWS Lambda lambda-vpc Create Function 
-echo 111 : AWS Lambda lambda-vpc Update Function Code
-echo 112 : AWS Lambda lambda-vpc Invoke Function
-echo 113 : AWS Lambda lambda-vpc Delete Function
-echo 114 : AWS Lambda lambda-vpc Get Function Configuration
-echo 115 : AWS Lambda lambda-vpc Update Function Configuration
+echo 102 : AWS IAM Roles
 echo ----------------------------------------------
-echo 120 : AWS Lambda lambda-iam Create Function 
-echo 121 : AWS Lambda lambda-iam Update Function Code
-echo 122 : AWS Lambda lambda-iam Invoke Function
-echo 123 : AWS Lambda lambda-iam Delete Function
-echo 124 : AWS Lambda lambda-iam Get Function Configuration
-echo 125 : AWS Lambda lambda-iam Update Function Configuration
+echo 210 : AWS Lambda lambda-vpc Create Function 
+echo 211 : AWS Lambda lambda-vpc Update Function Code
+echo 212 : AWS Lambda lambda-vpc Invoke Function
+echo 213 : AWS Lambda lambda-vpc Delete Function
+echo 214 : AWS Lambda lambda-vpc Get Function Configuration
+echo 215 : AWS Lambda lambda-vpc Update Function Configuration
 echo ----------------------------------------------
-echo 200 : AWS STEPFUNCTIONS describe-actiivity
-echo 201 : AWS STEPFUNCTIONS xxx
-echo 202 : AWS STEPFUNCTIONS xxx
+echo 220 : AWS Lambda lambda-iam Create Function 
+echo 221 : AWS Lambda lambda-iam Update Function Code
+echo 222 : AWS Lambda lambda-iam Invoke Function
+echo 223 : AWS Lambda lambda-iam Delete Function
+echo 224 : AWS Lambda lambda-iam Get Function Configuration
+echo 225 : AWS Lambda lambda-iam Update Function Configuration
+echo ----------------------------------------------
+echo 500 : AWS STEPFUNCTIONS describe-actiivity
+echo 501 : AWS STEPFUNCTIONS xxx
+echo 502 : AWS STEPFUNCTIONS xxx
 echo ----------------------------------------------
 echo 900 : V-Env Create
 echo 901 : V-Env Activate
@@ -56,7 +58,6 @@ fi
 if [ -n "$2" ]; then
   PROFILE=$2
 fi
-
 
 echo Your selection is : $SELECTION.
 echo Your profile is : $PROFILE.
@@ -104,7 +105,7 @@ case "$SELECTION" in
   ;;
 
 
-"110" )
+"210" )
   echo "===== AWS Lambda Create Function:" $PROFILE
   FUNCTION_CODE="lambda-vpc"
   FUNCTION_NAME="terence-vpc1"
@@ -123,7 +124,7 @@ case "$SELECTION" in
   ;;
 
 
-"111" )
+"211" )
   echo "===== AWS Lambda Update Function Code:" $PROFILE
   FUNCTION_CODE="lambda-vpc"
   FUNCTION_NAME="terence-vpc1"
@@ -138,7 +139,7 @@ case "$SELECTION" in
     --output $OUTPUT
   ;;
 
-"112" )
+"212" )
   echo "===== AWS Lambda Invoke Function:" $PROFILE
   FUNCTION_CODE="lambda-vpc"
   FUNCTION_NAME="terence-vpc1"
@@ -152,7 +153,7 @@ case "$SELECTION" in
 #    --invocation-type Event \
 #		-- payload '{"key1":"value1"}' \
 
-"113" )
+"213" )
   echo "===== AWS Lambda Delete Function:" $PROFILE
   FUNCTION_NAME="terence-vpc1"
   aws lambda delete-function \
@@ -162,7 +163,7 @@ case "$SELECTION" in
   ;;
 
 
-"114" )
+"214" )
   echo "===== AWS Lambda Get Function Configuration:" $PROFILE
   FUNCTION_NAME="terence-vpc1"
   aws lambda get-function-configuration \
@@ -172,7 +173,7 @@ case "$SELECTION" in
   ;;
 
 
-"115" )
+"215" )
   echo "===== AWS Lambda Update Function Configuration:" $PROFILE
   FUNCTION_NAME="terence-vpc1"
   aws lambda update-function-configuration \
@@ -181,9 +182,6 @@ case "$SELECTION" in
 		--profile $PROFILE \
     --output $OUTPUT
   ;;
-
-
-
 
 
 

@@ -17,4 +17,5 @@ Patterns...
 - Script Dynamo Infrastructure State management
 - Script Lambdas to test the infrastructure and environment + SNS + Dynamo update
 
-
+# Related
+- AWS Config can be used for resource inventory
