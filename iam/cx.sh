@@ -8,7 +8,6 @@ PWD=pwd
 PROFILE="ipadev"
 REGION="ap-southeast-2"
 OUTPUT="json"
-EMR_CLUSTER_ID="xxx"
 
 
 

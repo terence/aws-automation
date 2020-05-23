@@ -8,9 +8,6 @@ PWD=pwd
 PROFILE="ipadev"
 REGION="ap-southeast-2"
 OUTPUT="json"
-EMR_CLUSTER_ID="xxx"
-
-
 
 echo =============================================================
 echo Hi $USER@$HOSTNAME. You are in $PWD directory.
@@ -18,6 +15,12 @@ echo -------------------------------------------------------------
 echo 001 : AWS Configure
 echo 002 : AWS S3 List
 echo 003 : AWS STS Assume Role
+echo ----------------------------------------------
+echo 100 : AWS S3 Validate Official S3 Bucket List
+echo 101 : AWS S3 Create Official S3 Bucket List
+echo 102 : AWS S3 Validate Bucket Permissions
+echo 103 : AWS S3 Validate Bucket Encryption
+echo 104 : AWS S3 Tag Buckets
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
