@@ -30,7 +30,7 @@ echo ----------------------------------------------
 echo 200 : AWS CloudFormation create-stack Add Users 
 echo 201 : AWS CloudFormation delete-stack Delete Users 
 echo ----------------------------------------------
-echo 211 : AWS CloudFormation create-stack Add Groups 
+echo 210 : AWS CloudFormation create-stack Add Groups 
 echo 211 : AWS CloudFormation delete-stack Delete Groups 
 echo ----------------------------------------------
 echo Enter [Selection] to continue
