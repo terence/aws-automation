@@ -8,7 +8,7 @@ PWD=pwd
 PROFILE="ipadev"
 REGION="ap-southeast-2"
 OUTPUT="json"
-STACK_NAME="BIA-IPA-stack1"
+STACK_NAME="IPA-BIA-stack1"
 
 
 echo =============================================================

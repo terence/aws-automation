@@ -1,13 +1,15 @@
 # AWS Scripts Command-line Assistant
 #================================================================
 clear
-#source ./vars.sh
+source ./vars.sh
 PWD=pwd
 
 # DEFAULTS
 PROFILE="ipadev"
 REGION="ap-southeast-2"
 OUTPUT="json"
+STACK_NAME="IPA-BIA-stack1"
+
 
 echo =============================================================
 echo Hi $USER@$HOSTNAME. You are in $PWD directory.
@@ -21,6 +23,9 @@ echo 101 : AWS S3 Create Official S3 Bucket List
 echo 102 : AWS S3 Validate Bucket Permissions
 echo 103 : AWS S3 Validate Bucket Encryption
 echo 104 : AWS S3 Tag Buckets
+echo ----------------------------------------------
+echo 200 : AWS CloudFormation create-stack Create S3 Buckets
+echo 201 : AWS CloudFormation delete-stack Delete S3 Buckets
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
@@ -65,7 +70,31 @@ case "$SELECTION" in
   # aws sts get-caller-identity --profile ipadev 
   ;;
 
-    
+
+"200" )
+  echo "===== AWS CF create-stack Create S3 Buckets:" $PROFILE
+  STACK_NAME="terence-s3-stack1"
+  aws cloudformation create-stack \
+    --stack-name $STACK_NAME \
+    --template-body file://stacks/s3-buckets-cf1.yaml \
+#    --capabilities CAPABILITY_NAMED_IAM \
+    --role-arn arn:aws:iam::832435373672:role/Git2S3
+#    --role-arn $STACK_ROLE \
+  ;;
+
+
+"201" )
+  echo "===== AWS CF delete-stack Delete S3 Buckets:" $PROFILE
+  STACK_NAME="terence-s3-stack1"
+  aws cloudformation delete-stack \
+    --stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
+
+
+
+
 
 # Attempt to cater for ESC
 "\x1B" )
