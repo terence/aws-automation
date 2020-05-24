@@ -8,7 +8,7 @@ PWD=pwd
 PROFILE="ipadev"
 REGION="ap-southeast-2"
 OUTPUT="json"
-
+STACK_NAME="BIA-IPA-stack1"
 
 
 echo =============================================================
@@ -26,6 +26,12 @@ echo 014 : AWS IAM List access-keys
 echo ----------------------------------------------
 echo 020 : AWS ORGANIZATIONS List Accounts
 echo 021 : AWS ORGANISATIONS List Roots
+echo ----------------------------------------------
+echo 200 : AWS CloudFormation create-stack Add Users 
+echo 201 : AWS CloudFormation delete-stack Delete Users 
+echo ----------------------------------------------
+echo 211 : AWS CloudFormation create-stack Add Groups 
+echo 211 : AWS CloudFormation delete-stack Delete Groups 
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
@@ -127,7 +133,50 @@ case "$SELECTION" in
     --output $OUTPUT
   ;;
 
+"200" )
+  echo "===== AWS CF create-stack Add Users:" $PROFILE
+  STACK_NAME="terence-iam-stack1"
+  aws cloudformation create-stack \
+    --stack-name $STACK_NAME \
+    --template-body file://stacks/iam-users-cf1.yaml \
+    --capabilities CAPABILITY_NAMED_IAM \
+#    --role-arn arn:aws:iam::832435373672:role/Git2S3 
+#    --role-arn $STACK_ROLE \
+  ;;
 
+
+"201" )
+  echo "===== AWS CF delete-stack Add Users:" $PROFILE
+  STACK_NAME="terence-iam-stack1"
+  aws cloudformation delete-stack \
+    --stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
+
+
+
+
+"210" )
+  echo "===== AWS CF create-stack Add Groups:" $PROFILE
+  STACK_NAME="terence-iam-stack2"
+  aws cloudformation create-stack \
+    --stack-name $STACK_NAME \
+    --template-body file://stacks/iam-groups-cf1.yaml \
+    --capabilities CAPABILITY_NAMED_IAM \
+    --role-arn arn:aws:iam::832435373672:role/Git2S3 
+#    --role-arn $STACK_ROLE \
+  ;;
+
+
+"211" )
+  echo "===== AWS CF delete-stack Delete Groups:" $PROFILE
+  STACK_NAME="terence-iam-stack2"
+  aws cloudformation delete-stack \
+    --stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
 
 
 # Attempt to cater for ESC

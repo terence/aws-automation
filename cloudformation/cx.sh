@@ -128,13 +128,20 @@ case "$SELECTION" in
   STACK_NAME="terence-stack1"
 	aws cloudformation create-stack \
 		--stack-name $STACK_NAME \
-		--template-body file://stacks/cf-helloworld2.yaml \
- #   --role-arn $STACK_ROLE \
-		--profile $PROFILE \
-    --output $OUTPUT
+		--template-body file://stacks/cf-helloworld1.yaml \
+#    --role-arn arn:aws:iam::832435373672:role/Git2S3 
+#    --role-arn $STACK_ROLE \
   ;;
 
 
+"202" )
+  echo "===== AWS CF delete-stack:" $PROFILE
+  STACK_NAME="terence-stack1"
+	aws cloudformation delete-stack \
+		--stack-name $STACK_NAME \
+		--profile $PROFILE \
+    --output $OUTPUT
+  ;;
 
 
 "210" )

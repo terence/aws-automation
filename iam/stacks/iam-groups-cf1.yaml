@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    eef9cd1f-0f5a-4c52-8523-2110018c9eb3:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 307
+        'y': 92
+      z: 0
+Resources:
+  IAMGroupsTest1:
+    Type: 'AWS::IAM::Group'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: eef9cd1f-0f5a-4c52-8523-2110018c9eb3

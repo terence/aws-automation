@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    ffe4c53b-7b9b-4171-8b09-34644fdcda5b:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 211
+        'y': 122
+      z: 0
+Resources:
+  IAMUTerenceTest1:
+    Type: 'AWS::IAM::User'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: ffe4c53b-7b9b-4171-8b09-34644fdcda5b
+
