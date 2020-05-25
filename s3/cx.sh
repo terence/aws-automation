@@ -25,7 +25,12 @@ echo 103 : AWS S3 Validate Bucket Encryption
 echo 104 : AWS S3 Tag Buckets
 echo ----------------------------------------------
 echo 200 : AWS CloudFormation create-stack Create S3 Buckets
-echo 201 : AWS CloudFormation delete-stack Delete S3 Buckets
+echo 201 : AWS CloudFormation deploy Create S3 Buckets
+echo 202 : AWS CloudFormation delete-stack Delete S3 Buckets
+echo ----------------------------------------------
+echo 500 : AWS CloudFormation detect-stack-drift
+echo 501 : AWS CloudFormation detect-stack-resource-drift
+echo 502 : AWS CloudFormation describe-stack-resource-drifts
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
@@ -83,7 +88,18 @@ case "$SELECTION" in
   ;;
 
 
+
 "201" )
+  echo "===== AWS CF create-stack Create S3 Buckets:" $PROFILE
+  STACK_NAME="terence-s3-stack1"
+  aws cloudformation deploy \
+    --stack-name $STACK_NAME \
+    --template-file ./stacks/s3-buckets-cf1.yaml \
+    --role-arn $STACK_ROLE \
+  ;;
+
+
+"202" )
   echo "===== AWS CF delete-stack Delete S3 Buckets:" $PROFILE
   STACK_NAME="terence-s3-stack1"
   aws cloudformation delete-stack \
@@ -93,6 +109,31 @@ case "$SELECTION" in
   ;;
 
 
+"500" )
+  echo "===== AWS CF detect-stack-drift:" $PROFILE
+  aws cloudformation detect-stack-drift \
+    --stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
+
+
+"501" )
+  echo "===== AWS CF detect-stack-resource-drift:" $PROFILE
+  aws cloudformation detect-stack-resource-drift \
+    --stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
+
+
+"502" )
+  echo "===== AWS CF describe-stack-resource-drifts:" $PROFILE
+  aws cloudformation describe-stack-resource-drifts \
+    --stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
 
 
 

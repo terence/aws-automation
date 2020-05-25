@@ -27,12 +27,21 @@ echo ----------------------------------------------
 echo 200 : AWS CloudFormation create-stack
 echo 201 : AWS CloudFormation update-stack
 echo 202 : AWS CloudFormation delete-stack
-echo 210 : AWS CloudFormation deploy
 echo ----------------------------------------------
-echo 300 : AWS CloudFormation list-stack-sets
-echo 301 : AWS CloudFormation create-stack-set
-echo 302 : AWS CloudFormation update-stack-set
-echo 303 : AWS CloudFormation delete-stack-set
+echo 300 : AWS CloudFormation list-change-sets
+echo 301 : AWS CloudFormation describe-change-set
+echo 302 : AWS CloudFormation create-change-set
+echo 303 : AWS CloudFormation execute-change-set
+echo 304 : AWS CloudFormation delete-change-set
+echo ----------------------------------------------
+echo 400 : AWS CloudFormation list-stack-sets
+echo 401 : AWS CloudFormation create-stack-set
+echo 402 : AWS CloudFormation update-stack-set
+echo 403 : AWS CloudFormation delete-stack-set
+echo ----------------------------------------------
+echo 500 : AWS CloudFormation detect-stack-drift
+echo 501 : AWS CloudFormation detect-stack-resource-drift
+echo 502 : AWS CloudFormation describe-stack-resource-drifts
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
@@ -129,8 +138,7 @@ case "$SELECTION" in
 	aws cloudformation create-stack \
 		--stack-name $STACK_NAME \
 		--template-body file://stacks/helloworld-cf1.yaml \
-    --role-arn arn:aws:iam::832435373672:role/Git2S3 
-#    --role-arn $STACK_ROLE \
+    --role-arn $STACK_ROLE \
   ;;
 
 
@@ -155,13 +163,51 @@ case "$SELECTION" in
   ;;
 
 
+
 "300" )
+  echo "===== AWS CF list-change-sets" $PROFILE
+  STACK_NAME="terence-stack1"
+  aws cloudformation list-change-sets \
+    --stack-name $STACK_NAME \
+#    --role-arn $STACK_ROLE \
+  ;;
+
+
+
+"400" )
   echo "===== AWS CF list-stack-sets:" $PROFILE
   aws cloudformation list-stack-sets \
     --profile $PROFILE \
     --output $OUTPUT
   ;;
 
+
+"500" )
+  echo "===== AWS CF detect-stack-drift:" $PROFILE
+  aws cloudformation detect-stack-drift \
+		--stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
+
+	
+
+"501" )
+  echo "===== AWS CF detect-stack-resource-drift:" $PROFILE
+  aws cloudformation detect-stack-resource-drift \
+		--stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
+
+
+"502" )
+  echo "===== AWS CF describe-stack-resource-drifts:" $PROFILE
+  aws cloudformation describe-stack-resource-drifts \
+		--stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
 
 
 # Attempt to cater for ESC

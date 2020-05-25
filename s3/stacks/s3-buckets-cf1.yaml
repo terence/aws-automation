@@ -9,10 +9,28 @@ Metadata:
         x: 335
         'y': 138
       z: 0
+      
+Parameters:
+  EnvType:
+    Description: Environment type.
+    Default: test
+    Type: String
+    AllowedValues: [prod, dev, test]
+    ConstraintDescription: must specify prod, dev, or test.      
+
 Resources:
   S3BTerence1:
     Type: 'AWS::S3::Bucket'
     Properties: {}
+    DeletionPolicy: Delete
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 338c3170-867f-4804-a8d9-3e34f7fc9078
+  S3BTerence2:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties: {}
+  S3BTerence3:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Delete
+    Properties: {}
