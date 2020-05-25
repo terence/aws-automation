@@ -128,8 +128,8 @@ case "$SELECTION" in
   STACK_NAME="terence-stack1"
 	aws cloudformation create-stack \
 		--stack-name $STACK_NAME \
-		--template-body file://stacks/cf-helloworld1.yaml \
-#    --role-arn arn:aws:iam::832435373672:role/Git2S3 
+		--template-body file://stacks/helloworld-cf1.yaml \
+    --role-arn arn:aws:iam::832435373672:role/Git2S3 
 #    --role-arn $STACK_ROLE \
   ;;
 
@@ -139,8 +139,8 @@ case "$SELECTION" in
   STACK_NAME="terence-stack1"
 	aws cloudformation delete-stack \
 		--stack-name $STACK_NAME \
-		--profile $PROFILE \
-    --output $OUTPUT
+#		--profile $PROFILE \
+#    --output $OUTPUT
   ;;
 
 
@@ -149,7 +149,7 @@ case "$SELECTION" in
   STACK_NAME="terence-stack1"
 	aws cloudformation deploy \
 		--stack-name $STACK_NAME \
-		--template-file ./stacks/cf-helloworld1.yaml \
+		--template-file ./stacks/helloworld-cf1.yaml \
     --profile $PROFILE \
     --output $OUTPUT
   ;;

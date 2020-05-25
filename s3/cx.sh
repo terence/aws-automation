@@ -9,7 +9,7 @@ PROFILE="ipadev"
 REGION="ap-southeast-2"
 OUTPUT="json"
 STACK_NAME="IPA-BIA-stack1"
-
+TEST_COUNTER=0
 
 echo =============================================================
 echo Hi $USER@$HOSTNAME. You are in $PWD directory.
@@ -54,9 +54,11 @@ case "$SELECTION" in
 
 "002" )
   echo "===== AWS S3 List:" $PROFILE
-  aws s3 ls --profile $PROFILE
+  aws s3 ls \
+		--profile $PROFILE
   echo "Count:"
-  aws s3 ls --profile $PROFILE | wc -l
+  aws s3 ls \
+		--profile $PROFILE | wc -l
 
   #aws s3 ls s3://bucketname
   #aws s3 cp 
@@ -77,9 +79,7 @@ case "$SELECTION" in
   aws cloudformation create-stack \
     --stack-name $STACK_NAME \
     --template-body file://stacks/s3-buckets-cf1.yaml \
-#    --capabilities CAPABILITY_NAMED_IAM \
-    --role-arn arn:aws:iam::832435373672:role/Git2S3
-#    --role-arn $STACK_ROLE \
+    --role-arn $STACK_ROLE \
   ;;
 
 
