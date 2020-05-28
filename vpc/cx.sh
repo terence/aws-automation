@@ -52,15 +52,19 @@ echo 303 : AWS EC2 delete-vpc-endpoints
 echo ----------------------------------------------
 echo 320 : AWS EC2 describe-vpc-peering-connections
 echo ----------------------------------------------
-echo 500 : AWS EC2 describe-addresses
-echo 501 : AWS EC2 allocate-address
-echo 502 : AWS EC2 associate-address
-echo 503 : AWS EC2 disassociate-address
-echo 504 : AWS EC2 release-address
+echo 400 : AWS EC2 describe-addresses
+echo 401 : AWS EC2 allocate-address
+echo 402 : AWS EC2 associate-address
+echo 403 : AWS EC2 disassociate-address
+echo 404 : AWS EC2 release-address
 echo ----------------------------------------------
-echo 900 : AWS EC2 describe-flow-logs
-echo 901 : AWS EC2 create-flow-logs
-echo 902 : AWS EC2 delete-flow-logs
+echo 500 : AWS EC2 describe-flow-logs
+echo 501 : AWS EC2 create-flow-logs
+echo 502 : AWS EC2 delete-flow-logs
+echo ----------------------------------------------
+echo 800 : AWS CloudFormation create-stack Create Sandpit VPC
+echo 801 : AWS CloudFormation deploy Create Sandpit VPC
+echo 802 : AWS CloudFormation delete-stack Delete Sandpit VPC
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
@@ -327,7 +331,7 @@ case "$SELECTION" in
   ;;
 
 
-"500" )
+"400" )
   echo "===== AWS VPC describe-addresses:" $PROFILE
   aws ec2 describe-addresses \
     --profile $PROFILE \
@@ -335,7 +339,7 @@ case "$SELECTION" in
   ;;
 
 
-"900" )
+"500" )
   echo "===== AWS VPC describe-flow-logs:" $PROFILE
   aws ec2 describe-flow-logs \
     --profile $PROFILE \
@@ -343,7 +347,7 @@ case "$SELECTION" in
   ;;
 
 
-"901" )
+"501" )
   echo "===== AWS VPC create-flow-logs:" $PROFILE
   aws ec2 create-flow-logs \
     --resource-type VPC \
@@ -357,13 +361,44 @@ case "$SELECTION" in
 	;;
 
 
-"902" )
+"502" )
   echo "===== AWS VPC delete-flow-logs:" $PROFILE
   aws ec2 delete-flow-logs \
 	  --flow-log-id fl-xxxx \
     --profile $PROFILE \
     --output table
   ;;
+
+
+"800" )
+  echo "===== AWS CF create-stack Create Sandpit VPC:" $PROFILE
+  STACK_NAME="terence-vpc-stack1"
+  aws cloudformation create-stack \
+    --stack-name $STACK_NAME \
+    --template-body file://stacks/vpc-sandpit-cf1.yaml \
+    --role-arn $STACK_ROLE \
+  ;;
+
+
+"801" )
+  echo "===== AWS CF create-stack Deploy Sandpit VPC:" $PROFILE
+  STACK_NAME="terence-vpc-stack1"
+  aws cloudformation deploy \
+    --stack-name $STACK_NAME \
+    --template-file ./stacks/vpc-sandput-cf1.yaml \
+    --role-arn $STACK_ROLE \
+  ;;
+
+
+"802" )
+  echo "===== AWS CF delete-stack Delete Sandpit VPC:" $PROFILE
+  STACK_NAME="terence-vpc-stack1"
+  aws cloudformation delete-stack \
+    --stack-name $STACK_NAME \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
+
 
 
 

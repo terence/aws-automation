@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    b1f404af-a94c-4ee4-ae4b-90069d461685:
+      size:
+        width: 140
+        height: 140
+      position:
+        x: 320
+        'y': 118
+      z: 0
+Resources:
+  EC2VPCSandpit:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: 10.1.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+      - Key: Name
+        Value:  !Join ['', [!Ref "AWS::StackName", "-VPC" ]]
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: b1f404af-a94c-4ee4-ae4b-90069d461685
+  # Our VPC will need internet access:     
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    DependsOn: EC2VPCSandpit
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    # Notice how you can't attach an IGW to a VPC unless both are created:
+    Properties:
+      VpcId: !Ref EC2VPCSandpit
+      InternetGatewayId: !Ref InternetGateway
+
+
