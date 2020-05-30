@@ -372,7 +372,7 @@ case "$SELECTION" in
 
 "800" )
   echo "===== AWS CF create-stack Create Sandpit VPC:" $PROFILE
-  STACK_NAME="sandpit-vpc-stack1"
+  STACK_NAME="Sandpit1"
   aws cloudformation create-stack \
     --stack-name $STACK_NAME \
     --template-body file://stacks/vpc-sandpit-cf1.yaml \
@@ -392,7 +392,7 @@ case "$SELECTION" in
 
 "802" )
   echo "===== AWS CF delete-stack Delete Sandpit VPC:" $PROFILE
-  STACK_NAME="sandpit-vpc-stack1"
+  STACK_NAME="Sandpit1"
   aws cloudformation delete-stack \
     --stack-name $STACK_NAME \
     --profile $PROFILE \

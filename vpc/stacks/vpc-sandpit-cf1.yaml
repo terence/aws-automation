@@ -10,6 +10,7 @@ Metadata:
         'y': 118
       z: 0
 Resources:
+  # Base VPC. A default route table is created with VPC.
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
@@ -19,6 +20,8 @@ Resources:
       Tags:
       - Key: Name
         Value:  !Join ['', [!Ref "AWS::StackName", "-VPC" ]]
+      - Key: Layer
+        Value: Network
     Metadata:
       'AWS::CloudFormation::Designer':
         id: b1f404af-a94c-4ee4-ae4b-90069d461685
@@ -30,6 +33,8 @@ Resources:
       Tags:
       - Key: Name
         Value:  !Join ['', [!Ref "AWS::StackName", "-IGW" ]]
+      - Key: Layer
+        Value: Network
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
     # Notice how you can't attach an IGW to a VPC unless both are created:
@@ -45,6 +50,8 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub ${AWS::StackName}-Public-A
+      - Key: Layer
+        Value: Network
   PublicSubnetB:
     Type: AWS::EC2::Subnet
     Properties:
@@ -54,6 +61,8 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub ${AWS::StackName}-Public-B
+      - Key: Layer
+        Value: Network
   PrivateSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
@@ -63,6 +72,8 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub ${AWS::StackName}-Private-A
+      - Key: Layer
+        Value: Network
   PrivateSubnetB:
     Type: AWS::EC2::Subnet
     Properties:
@@ -72,6 +83,8 @@ Resources:
       Tags:
       - Key: Name
         Value: !Sub ${AWS::StackName}-Private-B
+      - Key: Layer
+        Value: Network
 
   # Some route tables for our subnets:
   PublicRouteTable:
@@ -80,7 +93,9 @@ Resources:
       VpcId: !Ref VPC
       Tags:
       - Key: Name
-        Value: Public
+        Value: Public RT
+      - Key: Layer
+        Value: Network
   PublicRoute1:   # Public route table has direct routing to IGW:
     Type: AWS::EC2::Route
     DependsOn: AttachGateway
@@ -89,6 +104,38 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway  
 
+  # A NAT Gateway:
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt ElasticIPAddress.AllocationId
+      SubnetId: !Ref PublicSubnetA
+      Tags:
+      - Key: Name
+        Value: !Sub NAT-${AWS::StackName}
+  ElasticIPAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: VPC
 
+  # Private route table can access web via NAT (created below)
+  # Here is a private route table:
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: Private
+  PrivateRoute1:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      # Route traffic through the NAT Gateway:
+      NatGatewayId: !Ref NATGateway
 
-
+Outputs:
+  VPC:
+    Description: VPC
+    Value: !Ref VPC
