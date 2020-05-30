@@ -1,8 +1,13 @@
 
-# Networks Automation
+# Network Automation
 Typically use:
 - awscli + cf templates
 - moving to cloudformation templates soon.
+
+
+# TODO
+- Facilitate VPC Flow Logs to S3 Bucket
+
 
 
 # Assumptions
