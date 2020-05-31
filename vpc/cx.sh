@@ -377,6 +377,8 @@ case "$SELECTION" in
     --stack-name $STACK_NAME \
     --template-body file://stacks/vpc-sandpit-cf1.yaml \
     --role-arn $STACK_ROLE \
+#    --parameters \
+
   ;;
 
 

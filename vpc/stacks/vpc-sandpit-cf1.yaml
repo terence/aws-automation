@@ -9,6 +9,19 @@ Metadata:
         x: 320
         'y': 118
       z: 0
+Description: 'AWS CloudFormation template to create a base VPC environment with Internet access'
+
+# Route Parameters
+Parameters:
+  NumberOfAZs:
+    Description:  How many Availability Zones do you wish to utilize?
+    Type: Number
+    AllowedValues:
+    - 1
+    - 2
+    - 3
+    Default: 2
+
 Resources:
   # Base VPC. A default route table is created with VPC.
   VPC:
@@ -63,6 +76,17 @@ Resources:
         Value: !Sub ${AWS::StackName}-Public-B
       - Key: Layer
         Value: Network
+  PublicSubnetC:
+   Type: AWS::EC2::Subnet
+   Properties:
+     VpcId: !Ref VPC
+     CidrBlock: 10.1.30.0/24
+     AvailabilityZone: !Select [ 2, !GetAZs ]    # Get the third AZ in the list 
+     Tags:
+     - Key: Name
+       Value: !Sub ${AWS::StackName}-Public-C
+        
+        
   PrivateSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
@@ -85,6 +109,17 @@ Resources:
         Value: !Sub ${AWS::StackName}-Private-B
       - Key: Layer
         Value: Network
+  PrivateSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.1.70.0/24
+      AvailabilityZone: !Select [ 2, !GetAZs ]    # Get the third AZ in the list 
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}-Private-C
+
+
 
   # Some route tables for our subnets:
   PublicRouteTable:
@@ -93,7 +128,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
       - Key: Name
-        Value: Public RT
+        Value: !Sub ${AWS::StackName}-Public-RT
       - Key: Layer
         Value: Network
   PublicRoute1:   # Public route table has direct routing to IGW:
@@ -104,6 +139,22 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway  
 
+ # Here is a private route table:
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Sub ${AWS::StackName}-Private-RT
+  PrivateRoute1:            # Private route table can access web via NAT (created below)
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      # Route traffic through the NAT Gateway:
+      NatGatewayId: !Ref NATGateway
+
   # A NAT Gateway:
   NATGateway:
     Type: AWS::EC2::NatGateway
@@ -112,30 +163,59 @@ Resources:
       SubnetId: !Ref PublicSubnetA
       Tags:
       - Key: Name
-        Value: !Sub NAT-${AWS::StackName}
+        Value: !Sub ${AWS::StackName}-NAT
   ElasticIPAddress:
     Type: AWS::EC2::EIP
     Properties:
       Domain: VPC
 
-  # Private route table can access web via NAT (created below)
-  # Here is a private route table:
-  PrivateRouteTable:
-    Type: AWS::EC2::RouteTable
+
+  # Attach the public subnets to public route tables,
+  # and attach the private subnets to private route tables:   
+  PublicSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      VpcId: !Ref VPC
-      Tags:
-      - Key: Name
-        Value: Private
-  PrivateRoute1:
-    Type: AWS::EC2::Route
+      SubnetId: !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetBRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
+      SubnetId: !Ref PublicSubnetB
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetC
+      RouteTableId: !Ref PublicRouteTable
+  PrivateSubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetA
       RouteTableId: !Ref PrivateRouteTable
-      DestinationCidrBlock: 0.0.0.0/0
-      # Route traffic through the NAT Gateway:
-      NatGatewayId: !Ref NATGateway
+  PrivateSubnetBRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetB
+      RouteTableId: !Ref PrivateRouteTable
+  PrivateSubnetCRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnetC
+      RouteTableId: !Ref PrivateRouteTable
+
 
 Outputs:
   VPC:
     Description: VPC
     Value: !Ref VPC
+
+  PublicSubnets:
+    Description: A list of the public subnets
+    Value: !Join [ ",", [ !Ref PublicSubnetA, !Ref PublicSubnetB ]]
+
+  PrivateSubnets:
+    Description: A list of the private subnets
+    Value: !Join [ ",", [ !Ref PrivateSubnetA, !Ref PrivateSubnetB ]]
+
+
+

@@ -1,0 +1,11 @@
+[
+  {
+    "ParameterKey": "string",
+    "ParameterValue": "string",
+    "UsePreviousValue": true|false,
+    "ResolvedValue": "string"
+  }
+]
+
+
+
