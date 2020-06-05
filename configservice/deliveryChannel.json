@@ -1,6 +1,6 @@
 {
     "name": "default",
-    "s3BucketName": "iconfig-bucket-832435373672",
+    "s3BucketName": "config-bucket-832435373672",
     "snsTopicARN": "arn:aws:sns:ap-southeast-2:832435373672:config-topic",
     "configSnapshotDeliveryProperties": {
         "deliveryFrequency": "TwentyFour_Hours"
