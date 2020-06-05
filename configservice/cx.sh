@@ -27,6 +27,8 @@ echo ----------------------------------------------
 echo 500 : AWS configservice describe-configuration-recorders
 echo 501 : AWS configservice start-configuration-recorder
 echo 502 : AWS configservice stop-configuration-recorder
+echo 503 : AWS configservice describe-delivery-channels
+echo 504 : AWS configservice put-delivery-channel
 echo ----------------------------------------------
 echo Enter [Selection] to continue
 echo =============================================================
@@ -77,11 +79,48 @@ case "$SELECTION" in
 
 "100" )
   echo "===== AWS configservice list-discovered-resources:" $PROFILE
+  echo "# of VPCs: "
   aws configservice list-discovered-resources \
     --resource-type AWS::EC2::VPC \
-    --output $OUTPUT \
-    --profile $PROFILE
-  ;;
+    --profile $PROFILE \
+    --output text | wc -l
+  echo "# of S3 Buckets: "
+  aws configservice list-discovered-resources \
+    --resource-type AWS::S3::Bucket \
+    --profile $PROFILE \
+    --output text | wc -l
+  echo "# of Dynamo Tables: "
+  aws configservice list-discovered-resources \
+    --resource-type AWS::DynamoDB::Table \
+    --profile $PROFILE \
+    --output text | wc -l
+  echo "# of Lambda: "
+  aws configservice list-discovered-resources \
+    --resource-type AWS::Lambda::Function \
+    --profile $PROFILE \
+    --output text | wc -l
+  echo "# of IAM Users: "
+  aws configservice list-discovered-resources \
+    --resource-type AWS::IAM::User \
+    --profile $PROFILE \
+    --output text | wc -l
+  echo "# of IAM Groups: "
+  aws configservice list-discovered-resources \
+    --resource-type AWS::IAM::Group \
+    --profile $PROFILE \
+    --output text | wc -l
+  echo "# of IAM Roles: "
+  aws configservice list-discovered-resources \
+    --resource-type AWS::IAM::Roole \
+    --profile $PROFILE \
+    --output text | wc -l
+  echo "# of IAM Policies: "
+  aws configservice list-discovered-resources \
+    --resource-type AWS::IAM::Policy \
+    --profile $PROFILE \
+    --output text | wc -l
+		
+	;;
 
 
 "200" )
@@ -89,7 +128,13 @@ case "$SELECTION" in
   aws configservice describe-config-rules \
     --output $OUTPUT \
     --profile $PROFILE
-  ;;
+  echo "# of Config Rules: "
+  aws configservice describe-config-rules \
+    --profile $PROFILE \
+    --output text | wc -l
+	
+	
+	;;
 
 "201" )
   echo "===== AWS configservice put-config-rule:" $PROFILE
@@ -145,8 +190,21 @@ case "$SELECTION" in
   ;;
 
 
+"503" )
+  echo "===== AWS configservice describe-delivery-channels:" $PROFILE
+  aws configservice describe-delivery-channels \
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
 
 
+"504" )
+  echo "===== AWS configservice describe-delivery-channels:" $PROFILE
+  aws configservice put-delivery-channel \
+		--delivery-channel file://deliveryChannel.json
+    --profile $PROFILE \
+    --output $OUTPUT
+  ;;
 
 
 
